@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:15-bookworm
+    environment:
+      POSTGRES_DATABASE: gin-test
+      POSTGRES_USER: gin-test
+      POSTGRES_PASSWORD: p4ssw0rd!
+    volumes:
+      - "./database/initdb.d:/docker-entrypoint-initdb.d:ro"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "gin-test"]
+      start_period: 0s
+      interval: 1s
+      timeout: 5s
+    ports:
+      - "127.0.0.1:25432:5432"
+      - "[::1]:25432:5432"
+
+  app:
+    profiles:
+      - full
+    build:
+      context: .
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_USER: gin-test
+      DATABASE_PASSWORD: p4ssw0rd!
+    depends_on:
+      - postgres
+    ports:
+      - "127.0.0.1:80:80/tcp"
+      - "[::1]:80:80/tcp"
