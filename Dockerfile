@@ -1,4 +1,22 @@
-FROM golang:1.23.3-bookworm AS builder
+FROM golang:1.23.3-bookworm AS base
+
+# ---
+
+FROM base AS dev
+
+RUN apt-get update && apt-get upgrade -yq && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    --mount=type=bind,source=go.mod,target=go.mod \
+    --mount=type=bind,source=go.sum,target=go.sum \
+    go mod download -x
+
+# ---
+
+FROM base AS builder
 
 WORKDIR /src
 

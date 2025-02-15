@@ -20,13 +20,20 @@ services:
     profiles:
       - full
     build:
-      context: .
+      target: dev
+    tty: true
     environment:
       DATABASE_HOST: postgres
       DATABASE_USER: gin-test
       DATABASE_PASSWORD: p4ssw0rd!
     depends_on:
       - postgres
+    expose:
+      - 8080
     ports:
-      - "127.0.0.1:80:80/tcp"
-      - "[::1]:80:80/tcp"
+      - "8080:8080"
+    volumes:
+      - type: "bind"
+        source: "."
+        target: "/src"
+        read_only: false
