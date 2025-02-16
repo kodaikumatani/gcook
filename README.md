@@ -6,3 +6,14 @@ framework: https://gin-gonic.com/ja/
 
 ### Docker 開発
 [direnv](https://direnv.net/) を導入すると go コマンドを Docker 内で実行することができる
+
+## Tool
+### Installation
+```shell
+go get -tool ${package}
+```
+
+### Execution
+```shell
+go tool golangci-lint run # Linter を実行
+```

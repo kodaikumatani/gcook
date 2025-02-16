@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,5 +14,7 @@ func main() {
 			"message": "hello world",
 		})
 	})
-	engine.Run(":80")
+	if err := engine.Run(":80"); err != nil {
+		os.Exit(1)
+	}
 }
