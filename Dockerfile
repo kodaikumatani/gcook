@@ -15,15 +15,6 @@ RUN --mount=type=cache,target=/go/pkg/mod/ \
 
 # ---
 
-FROM builder AS dev
-
-RUN apt-get update && apt-get upgrade -yq && \
-    rm -rf /var/lib/apt/lists/*
-
-CMD ["/src/bin/serve"]
-
-# ---
-
 FROM gcr.io/distroless/cc-debian12:latest
 
 COPY --from=builder /src/bin/serve /bin/serve
