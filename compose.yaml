@@ -21,7 +21,6 @@ services:
       - full
     build:
       target: builder
-    command: ./bin/serve
     tty: true
     environment:
       DATABASE_HOST: postgres
@@ -29,7 +28,7 @@ services:
       DATABASE_PASSWORD: p4ssw0rd!
     depends_on:
       - postgres
-    expose:
-      - 8080
+    volumes:
+      - .:/src
     ports:
       - "8080:8080"
