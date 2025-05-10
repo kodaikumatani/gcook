@@ -2,13 +2,13 @@ services:
   postgres:
     image: postgres:15-bookworm
     environment:
-      POSTGRES_DATABASE: gin-test
-      POSTGRES_USER: gin-test
+      POSTGRES_DATABASE: gcook
+      POSTGRES_USER: gcook
       POSTGRES_PASSWORD: p4ssw0rd!
     volumes:
       - "./database/initdb.d:/docker-entrypoint-initdb.d:ro"
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "gin-test"]
+      test: ["CMD", "pg_isready", "-U", "gcook"]
       start_period: 0s
       interval: 1s
       timeout: 5s
@@ -24,7 +24,7 @@ services:
     tty: true
     environment:
       DATABASE_HOST: postgres
-      DATABASE_USER: gin-test
+      DATABASE_USER: gcook
       DATABASE_PASSWORD: p4ssw0rd!
     depends_on:
       - postgres
