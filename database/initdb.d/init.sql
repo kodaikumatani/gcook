@@ -1,5 +1,5 @@
-CREATE SCHEMA "gin-test";
+CREATE SCHEMA "gcook";
 
-ALTER SCHEMA "gin-test"
-    OWNER TO "gin-test"
+ALTER SCHEMA "gcook"
+  OWNER TO "gcook"
 ;

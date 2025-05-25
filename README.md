@@ -59,7 +59,7 @@ atlas migrate diff --env local
 ## ✅ フェーズ 1: 設計 & 準備
 
 -   [x] 要件定義を確認・確定する
--   [ ] ER 図と DB スキーマを設計する
+-   [x] ER 図と DB スキーマを設計する
 -   [ ] gRPC の proto ファイルを設計する
 -   [ ] 開発環境（Docker）を構築する
 
