@@ -16,5 +16,5 @@ indent_style = space
 [*.go]
 indent_style = tab
 
-[*.{hcl,yml,yaml}]
+[*.{hcl,sql,yml,yaml}]
 indent_size = 2
