@@ -1,0 +1,239 @@
+openapi: 3.0.3
+info:
+  title: gCook API
+  version: 1.0.0
+  description: REST API for Recipe Sharing & Rating Service (gCook)
+
+servers:
+  - url: http://localhost:8080/api/v1
+
+paths:
+
+  /users:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: User created
+
+  /recipes:
+    get:
+      summary: Get list of recipes
+      responses:
+        '200':
+          description: List of recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+    post:
+      summary: Create a new recipe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCreate'
+      responses:
+        '201':
+          description: Recipe created
+
+  /recipes/{id}:
+    get:
+      summary: Get a recipe by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+    put:
+      summary: Update a recipe
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeUpdate'
+      responses:
+        '200':
+          description: Recipe updated
+    delete:
+      summary: Delete a recipe
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+
+  /recipes/{id}/ratings:
+    post:
+      summary: Submit a rating for a recipe
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RatingCreate'
+      responses:
+        '201':
+          description: Rating submitted
+
+  /recipes/{id}/comments:
+    post:
+      summary: Post a comment on a recipe
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreate'
+      responses:
+        '201':
+          description: Comment posted
+    get:
+      summary: List comments on a recipe
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+
+components:
+  schemas:
+
+    UserCreate:
+      type: object
+      required: [name, email]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+
+    Recipe:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        instructions:
+          type: string
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
+        tags:
+          type: array
+          items:
+            type: string
+        average_rating:
+          type: number
+          format: float
+
+    RecipeCreate:
+      type: object
+      required: [title, instructions, ingredients]
+      properties:
+        title:
+          type: string
+        instructions:
+          type: string
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
+        tags:
+          type: array
+          items:
+            type: string
+
+    RecipeUpdate:
+      allOf:
+        - $ref: '#/components/schemas/RecipeCreate'
+
+    Ingredient:
+      type: object
+      properties:
+        name:
+          type: string
+        quantity:
+          type: string
+
+    RatingCreate:
+      type: object
+      required: [score]
+      properties:
+        score:
+          type: integer
+          minimum: 1
+          maximum: 5
+
+    CommentCreate:
+      type: object
+      required: [text]
+      properties:
+        text:
+          type: string
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        text:
+          type: string
+        created_at:
+          type: string
+          format: date-time
